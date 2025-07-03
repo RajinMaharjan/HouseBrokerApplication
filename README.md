@@ -62,7 +62,7 @@ cd HouseBrokerApplication
 dotnet run
 ```
 ### 2. Update Configuration
-Update appsettings.json
+- Update appsettings.json
 ```
 "ConnectionStrings": {
   "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=HouseBrokerDb;Trusted_Connection=True;"
