@@ -17,15 +17,6 @@ The application supports authentication, listing management, commission calculat
 - Property details: type, location, price, features, description, and images
 - Broker-only visibility for commission
 - API ready for third-party consumption
-- Data validation and response caching
-
-### Commission Engine
-- Auto-calculates broker commission:
-  - `< ₹50,00,000` → **2%**
-  - `₹50,00,000 - ₹1,00,00,000` → **1.75%**
-  - `> ₹1,00,00,000` → **1.5%**
-- Commission is **configurable from DB**
-- Visible only to listing owner (Broker)
 
 ### Search and Filter
 - Filter listings by:
@@ -34,16 +25,13 @@ The application supports authentication, listing management, commission calculat
   - **Property type**
 - Detailed listing view including:
   - **Images**
-  - **Broker contact**
   - **Features & Description**
 
 ### Unit Testing
 - Tests included for:
-  - Commission calculation logic
   - Listing service logic
-  - Basic controller actions (with mocking)
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - [.NET 8 Web API](https://learn.microsoft.com/en-us/aspnet/core/)
 - [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/)
@@ -54,7 +42,7 @@ The application supports authentication, listing management, commission calculat
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 
@@ -65,7 +53,8 @@ The application supports authentication, listing management, commission calculat
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-repo/HouseBrokerApplication.git
+git clone https://github.com/RajinMaharjan/HouseBrokerApplication.git
 cd HouseBrokerApplication
+dotnet run 
 
 
