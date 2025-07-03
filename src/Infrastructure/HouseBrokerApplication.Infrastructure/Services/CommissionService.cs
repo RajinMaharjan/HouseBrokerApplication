@@ -15,11 +15,12 @@ namespace HouseBrokerApplication.Infrastructure.Services
 
         public CommissionService(ApplicationDbContext context) => _context = context;
 
-        public decimal CalculateCommission(decimal price)
+        public double CalculateCommission(double price)
         {
             var rate = _context.CommissionRates.FirstOrDefault(r =>
             price >= r.MinPrice && price <= r.MaxPrice);
-            return rate != null ? price * (decimal)rate.Percentage : 0;
+
+            return rate != null ? price * rate.Percentage : 0;
         }
     }
 }

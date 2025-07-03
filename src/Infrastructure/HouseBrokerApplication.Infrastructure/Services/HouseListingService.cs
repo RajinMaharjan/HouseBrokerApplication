@@ -2,44 +2,37 @@
 using HouseBrokerApplication.Application.Interface;
 using HouseBrokerApplication.Domain.Entities;
 using HouseBrokerApplication.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace HouseBrokerApplication.Api.Controllers
+namespace HouseBrokerApplication.Infrastructure.Services
 {
-    [Authorize(Roles = "Broker,Seeker")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ListingController : ControllerBase
+    public class HouseListingService : IHouseListingService
     {
         private readonly ApplicationDbContext _context;
         private readonly ICommissionService _commissionService;
 
-        public ListingController(ApplicationDbContext context, ICommissionService commissionService)
+        public HouseListingService(ApplicationDbContext context, ICommissionService commissionService)
         {
             _context = context;
             _commissionService = commissionService;
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Broker")]
-        public async Task<IActionResult> CreateListing([FromBody] HouseListing listing)
+        public async Task<HouseListing> CreateListingAsync(HouseListing listing)
         {
             listing.Commission = _commissionService.CalculateCommission(listing.Price);
             _context.HouseListings.Add(listing);
-
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-
-            return CreatedAtAction(nameof(GetById), new { id = listing.Id }, listing);
+            await _context.SaveChangesAsync();
+            return listing;
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<ListingDto>>> GetAllListings()
+        public async Task<IEnumerable<ListingDto>> GetAllListingsAsync()
         {
-            var listings = await _context.HouseListings
+            return await _context.HouseListings
                 .Include(l => l.Broker)
                 .Include(l => l.Images)
                 .Select(l => new ListingDto
@@ -54,22 +47,18 @@ namespace HouseBrokerApplication.Api.Controllers
                     ImageUrls = l.Images.Select(img => img.Url).ToList()
                 })
                 .ToListAsync();
-
-            return Ok(listings);
         }
 
-        [HttpGet("{id:guid}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<object?> GetListingByIdAsync(Guid id)
         {
             var listing = await _context.HouseListings
                 .Include(l => l.Images)
                 .Include(l => l.Broker)
                 .FirstOrDefaultAsync(l => l.Id == id);
 
-            if (listing == null) return NotFound();
+            if (listing == null) return null;
 
-            var result = new
+            return new
             {
                 listing.Id,
                 listing.Title,
@@ -85,25 +74,12 @@ namespace HouseBrokerApplication.Api.Controllers
                     listing.Broker.PhoneNumber
                 }
             };
-
-            return Ok(result);
         }
 
-        [HttpGet("search")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Search(
-         [FromQuery] string? location,
-         [FromQuery] decimal? minPrice,
-         [FromQuery] decimal? maxPrice,
-         [FromQuery] string? propertyType,
-         [FromQuery] string sortBy = "price",
-         [FromQuery] string sortDirection = "asc",
-         [FromQuery] int page = 1,
-         [FromQuery] int pageSize = 10)
+        public async Task<object> SearchListingsAsync(string? location, double? minPrice, double? maxPrice,
+            string? propertyType, string sortBy, string sortDirection, int page, int pageSize)
         {
-            var query = _context.HouseListings
-                .Include(l => l.Images)
-                .AsQueryable();
+            var query = _context.HouseListings.Include(l => l.Images).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(location))
                 query = query.Where(l => l.Location.Contains(location));
@@ -132,47 +108,40 @@ namespace HouseBrokerApplication.Api.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            return Ok(new { totalCount, listings });
+            return new { totalCount, listings };
         }
 
-        [HttpPut("{id:guid}")]
-        [Authorize(Roles = "Broker")]
-        public async Task<IActionResult> UpdateListing(Guid id, [FromBody] HouseListing updatedListing)
+        public async Task<bool> UpdateListingAsync(Guid id, HouseListing updatedListing)
         {
             var existingListing = await _context.HouseListings.FindAsync(id);
-            if (existingListing == null) return NotFound();
+            if (existingListing == null) return false;
 
             existingListing.Title = updatedListing.Title;
             existingListing.Location = updatedListing.Location;
             existingListing.Price = updatedListing.Price;
             existingListing.PropertyType = updatedListing.PropertyType;
             existingListing.Description = updatedListing.Description;
-            
             existingListing.Commission = _commissionService.CalculateCommission(updatedListing.Price);
 
             _context.HouseListings.Update(existingListing);
             await _context.SaveChangesAsync();
-
-            return Ok("Updated");
+            return true;
         }
 
-        [HttpDelete("{id:guid}")]
-        [Authorize(Roles = "Broker")]
-        public async Task<IActionResult> DeleteListing(Guid id)
+        public async Task<bool> DeleteListingAsync(Guid id)
         {
             var listing = await _context.HouseListings
                 .Include(l => l.Images)
                 .FirstOrDefaultAsync(l => l.Id == id);
 
-            if (listing == null) return NotFound();
+            if (listing == null) return false;
 
             _context.ListingImages.RemoveRange(listing.Images);
-
             _context.HouseListings.Remove(listing);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return true;
         }
-
     }
+
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HouseBrokerApplication.Domain.Entities
 {
-    public class ApplicationUser:IdentityUser
+    public class ApplicationUser:IdentityUser<Guid>
     {
         public string? FullName { get; set; }
         public string? Role { get; set; }

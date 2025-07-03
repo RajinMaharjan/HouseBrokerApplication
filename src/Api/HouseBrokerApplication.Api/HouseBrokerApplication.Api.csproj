@@ -42,8 +42,4 @@
     <ProjectReference Include="..\..\Infrastructure\HouseBrokerApplication.Infrastructure\HouseBrokerApplication.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

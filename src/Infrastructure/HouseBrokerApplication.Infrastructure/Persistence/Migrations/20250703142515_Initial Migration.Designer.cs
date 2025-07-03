@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250703070904_Initial Migration")]
+    [Migration("20250703142515_Initial Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -25,10 +25,53 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("HouseBrokerApplication.Domain.Entities.ApplicationRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b75dbfe5-3033-4fb0-9727-dd7b079d5ef5"),
+                            Name = "Broker",
+                            NormalizedName = "BROKER"
+                        },
+                        new
+                        {
+                            Id = new Guid("2105dd3b-1d9d-4aac-92ef-6ab4237cfb45"),
+                            Name = "Seeker",
+                            NormalizedName = "SEEKER"
+                        });
+                });
+
             modelBuilder.Entity("HouseBrokerApplication.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -93,42 +136,40 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", "Identity");
 
                     b.HasData(
                         new
                         {
-                            Id = "Broker 1",
+                            Id = new Guid("ce1c2771-2f31-4ad4-8dfa-030e2a00ab63"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "086d125e-abfe-4293-8265-a4ae59e6dbeb",
+                            ConcurrencyStamp = "0340f3f7-a80a-4e19-a703-ab4db04bad1a",
                             Email = "milan.chapagain@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Milan Chapagain",
                             LockoutEnabled = false,
                             NormalizedEmail = "MILAN.CHAPAGAIN@GMAIL.COM",
                             NormalizedUserName = "MILAN.CHAPAGAIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP3Oo6Lc8PMnWMKTbxwbhVxswJZcFq+TQlPTND0vwHSD2qEMhe1XVqihTNrCXnpuYQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAETO0Tq/wQR6SuuydjnIOvirx5iGbSdKzlKztJVuJ2EQAYXH7zRmvxhFz4nEvb5tA==",
                             PhoneNumberConfirmed = false,
                             Role = "Broker",
-                            SecurityStamp = "6aee2556-bfa3-4029-9c6d-119944426724",
                             TwoFactorEnabled = false,
                             UserName = "milan.chapagain@gmail.com"
                         },
                         new
                         {
-                            Id = "Seeker 1",
+                            Id = new Guid("7025cf80-002e-4d28-97d8-8f5140caa9b5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f66ca4b2-98b1-4a0f-8fb4-2c5e46d430a4",
+                            ConcurrencyStamp = "edcac11a-6daf-4492-bf7d-7571faccf219",
                             Email = "ram.shrestha@gmail.com",
                             EmailConfirmed = true,
                             FullName = "Ram Shrestha",
                             LockoutEnabled = false,
                             NormalizedEmail = "RAM.SHRESTHA@GMAIL.COM",
                             NormalizedUserName = "RAM.SHRESTHA@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPCUyXlKNg7r/1YA3477mMz24Mvpn7dqncC9qQ7a6wbW93MlytzxhqRd8JmzD7iM6Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENmLb9s9ci/U31aIOA7Q1VopDjEYAnHTsMyWbn+BveBsIBrN6eCwD2Qn3pp8b/p1ow==",
                             PhoneNumberConfirmed = false,
                             Role = "Seeker",
-                            SecurityStamp = "d22fb4ea-e577-46fd-9f2c-92cd5e1c376d",
                             TwoFactorEnabled = false,
                             UserName = "ram.shrestha@gmail.com"
                         });
@@ -142,39 +183,39 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("MaxPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("MaxPrice")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("MinPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("MinPrice")
+                        .HasColumnType("float");
 
                     b.Property<double>("Percentage")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CommissionRates");
+                    b.ToTable("Rates", "HBA");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            MaxPrice = 500m,
-                            MinPrice = 0m,
+                            MaxPrice = 500.0,
+                            MinPrice = 0.0,
                             Percentage = 0.02
                         },
                         new
                         {
                             Id = 2,
-                            MaxPrice = 1000m,
-                            MinPrice = 500m,
+                            MaxPrice = 1000.0,
+                            MinPrice = 500.0,
                             Percentage = 0.017500000000000002
                         },
                         new
                         {
                             Id = 3,
-                            MaxPrice = 79228162514264337593543950335m,
-                            MinPrice = 1000m,
+                            MaxPrice = 2000.0,
+                            MinPrice = 1000.0,
                             Percentage = 0.014999999999999999
                         });
                 });
@@ -185,11 +226,11 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BrokerId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("BrokerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Commission")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Commission")
+                        .HasColumnType("float");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -197,8 +238,8 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("PropertyType")
                         .HasColumnType("nvarchar(max)");
@@ -210,28 +251,28 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("BrokerId");
 
-                    b.ToTable("HouseListings");
+                    b.ToTable("Houses", "HBA");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("261ed466-4c1f-40e2-b9f7-ee6ab5403fd1"),
-                            BrokerId = "Broker 1",
-                            Commission = 131250m,
+                            Id = new Guid("bc1c4167-a006-4af0-9de3-f0331a545cdc"),
+                            BrokerId = new Guid("ce1c2771-2f31-4ad4-8dfa-030e2a00ab63"),
+                            Commission = 131.0,
                             Description = "2 BHK modern apartment in heart of the city.",
                             Location = "Kathmandu",
-                            Price = 7500000m,
+                            Price = 750.0,
                             PropertyType = "House",
                             Title = "House in Kathmandu"
                         },
                         new
                         {
-                            Id = new Guid("94c1b402-082c-42e4-bc99-d69c193b6c72"),
-                            BrokerId = "Broker 1",
-                            Commission = 187500m,
+                            Id = new Guid("ac378d79-7c1f-4090-a353-4a3727c874c8"),
+                            BrokerId = new Guid("ce1c2771-2f31-4ad4-8dfa-030e2a00ab63"),
+                            Commission = 187.0,
                             Description = "Luxurious villa with city view.",
                             Location = "Kathmandu",
-                            Price = 12500000m,
+                            Price = 1250.0,
                             PropertyType = "Villa",
                             Title = "Luxury Villa in Kathmandu"
                         });
@@ -253,65 +294,44 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("HouseListingId");
 
-                    b.ToTable("ListingImages");
+                    b.ToTable("Images", "HBA");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4c6f20f9-2358-44e6-a1a5-a840ec5c75a3"),
-                            HouseListingId = new Guid("261ed466-4c1f-40e2-b9f7-ee6ab5403fd1"),
+                            Id = new Guid("23349765-191b-4145-b352-73d23f0f31f6"),
+                            HouseListingId = new Guid("bc1c4167-a006-4af0-9de3-f0331a545cdc"),
                             Url = "https://www.pexels.com/photo/brown-and-gray-painted-house-in-front-of-road-1396122/"
                         },
                         new
                         {
-                            Id = new Guid("cc12ee2a-8b29-440a-88df-932d4d3ba5b5"),
-                            HouseListingId = new Guid("94c1b402-082c-42e4-bc99-d69c193b6c72"),
+                            Id = new Guid("bc99386f-c0f4-45b0-bcaf-dc032fb29467"),
+                            HouseListingId = new Guid("ac378d79-7c1f-4090-a353-4a3727c874c8"),
                             Url = "https://www.pexels.com/photo/house-lights-turned-on-106399/"
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            Name = "Broker",
-                            NormalizedName = "BROKER"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Name = "Seeker",
-                            NormalizedName = "SEEKER"
-                        });
+                    b.ToTable("Roles", "Identity");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -325,18 +345,17 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", "Identity");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -350,18 +369,17 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UserClaims", "Identity");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -372,36 +390,35 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UserLogins", "Identity");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UserRoles", "Identity");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -414,7 +431,7 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UserTokens", "Identity");
                 });
 
             modelBuilder.Entity("HouseBrokerApplication.Domain.Entities.HouseListing", b =>
@@ -437,16 +454,16 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                     b.Navigation("HouseListing");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("HouseBrokerApplication.Domain.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("HouseBrokerApplication.Domain.Entities.ApplicationUser", null)
                         .WithMany()
@@ -455,7 +472,7 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("HouseBrokerApplication.Domain.Entities.ApplicationUser", null)
                         .WithMany()
@@ -464,9 +481,9 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("HouseBrokerApplication.Domain.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -479,7 +496,7 @@ namespace HouseBrokerApplication.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("HouseBrokerApplication.Domain.Entities.ApplicationUser", null)
                         .WithMany()

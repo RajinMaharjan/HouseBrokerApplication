@@ -8,6 +8,6 @@ namespace HouseBrokerApplication.Application.Interface
 {
     public interface ICommissionService
     {
-        decimal CalculateCommission(decimal price);
+        double CalculateCommission(double price);
     }
 }
