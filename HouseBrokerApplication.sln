@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{E1445777-0479-4E5B-A741-9EF08F01D8DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBrokerApplication.Api", "src\Api\HouseBrokerApplication.Api\HouseBrokerApplication.Api.csproj", "{E038B099-B505-4E99-9A11-4A054142995F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{14301E2D-A43B-444E-8359-290767CA3D77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D23D0D11-7770-4396-830C-72EFFA430CC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{7BEDE822-D8B0-414D-B4D0-84124EA433D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBrokerApplication.Application", "src\Application\HouseBrokerApplication.Application\HouseBrokerApplication.Application.csproj", "{2E31B579-266C-471D-A4CA-B189D835DF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBrokerApplication.Domain", "src\Domain\HouseBrokerApplication.Domain\HouseBrokerApplication.Domain.csproj", "{34AF594E-2C64-4026-84C8-F77E02C658F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBrokerApplication.Infrastructure", "src\Infrastructure\HouseBrokerApplication.Infrastructure\HouseBrokerApplication.Infrastructure.csproj", "{0EA208C4-80DD-4469-9439-1A527DC80484}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E038B099-B505-4E99-9A11-4A054142995F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E038B099-B505-4E99-9A11-4A054142995F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E038B099-B505-4E99-9A11-4A054142995F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E038B099-B505-4E99-9A11-4A054142995F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E31B579-266C-471D-A4CA-B189D835DF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E31B579-266C-471D-A4CA-B189D835DF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E31B579-266C-471D-A4CA-B189D835DF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E31B579-266C-471D-A4CA-B189D835DF2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34AF594E-2C64-4026-84C8-F77E02C658F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34AF594E-2C64-4026-84C8-F77E02C658F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34AF594E-2C64-4026-84C8-F77E02C658F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34AF594E-2C64-4026-84C8-F77E02C658F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA208C4-80DD-4469-9439-1A527DC80484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA208C4-80DD-4469-9439-1A527DC80484}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA208C4-80DD-4469-9439-1A527DC80484}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA208C4-80DD-4469-9439-1A527DC80484}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1445777-0479-4E5B-A741-9EF08F01D8DA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E038B099-B505-4E99-9A11-4A054142995F} = {E1445777-0479-4E5B-A741-9EF08F01D8DA}
+		{14301E2D-A43B-444E-8359-290767CA3D77} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D23D0D11-7770-4396-830C-72EFFA430CC3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7BEDE822-D8B0-414D-B4D0-84124EA433D7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2E31B579-266C-471D-A4CA-B189D835DF2D} = {14301E2D-A43B-444E-8359-290767CA3D77}
+		{34AF594E-2C64-4026-84C8-F77E02C658F9} = {7BEDE822-D8B0-414D-B4D0-84124EA433D7}
+		{0EA208C4-80DD-4469-9439-1A527DC80484} = {D23D0D11-7770-4396-830C-72EFFA430CC3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB25D50F-4316-401B-824C-F7635441A482}
+	EndGlobalSection
+EndGlobal
