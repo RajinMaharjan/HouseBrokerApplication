@@ -61,5 +61,18 @@ cd HouseBrokerApplication
 ```bash
 dotnet run
 ```
+### 2. Update Configuration
+Update appsettings.json
+```
+"ConnectionStrings": {
+  "DefaultConnection": "Server=YOUR_SERVER_NAME;Database=HouseBrokerDb;Trusted_Connection=True;"
+},
+"JwtConfig": {
+  "ValidIssuer": "HouseBrokerApp",
+  "ValidAudience": "HouseBrokerUsers",
+  "Secret": "WXJSAMFKLSTEHSYOVASDWQ",
+  "ExpiresIn": 10
+}
+```
 
 
