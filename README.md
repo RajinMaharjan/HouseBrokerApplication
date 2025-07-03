@@ -52,13 +52,13 @@ The application supports authentication, listing management, commission calculat
 
 ### 1. Clone the Repository
 
-```bash
+```
 git clone https://github.com/RajinMaharjan/HouseBrokerApplication.git
 ```
-```bash
+```
 cd HouseBrokerApplication
 ```
-```bash
+```
 dotnet run
 ```
 ### 2. Update Configuration
@@ -74,5 +74,21 @@ dotnet run
   "ExpiresIn": 10
 }
 ```
-
-
+### 3. Apply Migrations
+- Direct to folder
+```
+cd sr/Infrastructure/HouseBrokerApplication.Infrastructure
+```
+- Add Migration
+```
+dotnet ef migrations add "Initial Migration" --project src/Infrastructure/HouseBrokerApplication.Infrastructure --startup-project src/Api/HouseBrokerApplication.Api -o Persistence/Migrations 
+```
+- Update Database
+```
+dotnet ef database update  --project src/Infrastructure/HouseBrokerApplication.Infrastructure --startup-project src/Api/HouseBrokerApplication.Api 
+```
+### 4. Run the Application
+- Navigate to src/Api folder and enter following command:
+```
+dotnet run --project HouseBrokerApplication.API
+```
