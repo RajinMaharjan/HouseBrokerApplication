@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HouseBrokerApplication.Api.Controllers
-{
-    [Authorize(Roles = "Broker,Seeker")]
+{    
     [ApiController]
     [Route("api/[controller]")]
     public class HouseListingController : ControllerBase
@@ -18,24 +17,24 @@ namespace HouseBrokerApplication.Api.Controllers
             _houseListingService = houseListingService;
         }
 
-        [HttpPost]
         [Authorize(Roles = "Broker")]
+        [HttpPost("createHouseListing")]
         public async Task<IActionResult> CreateListing([FromBody] HouseListing listing)
         {
             var result = await _houseListingService.CreateListingAsync(listing);
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        [HttpGet]
         [AllowAnonymous]
+        [HttpGet("getAllListings")]
         public async Task<ActionResult<IEnumerable<ListingDto>>> GetAllListings()
         {
             var listings = await _houseListingService.GetAllListingsAsync();
             return Ok(listings);
         }
 
-        [HttpGet("{id:guid}")]
         [AllowAnonymous]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _houseListingService.GetListingByIdAsync(id);
@@ -43,8 +42,8 @@ namespace HouseBrokerApplication.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("search")]
         [AllowAnonymous]
+        [HttpGet("search")]
         public async Task<IActionResult> Search(
             [FromQuery] string? location,
             [FromQuery] double? minPrice,
@@ -59,8 +58,8 @@ namespace HouseBrokerApplication.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id:guid}")]
         [Authorize(Roles = "Broker")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateListing(Guid id, [FromBody] HouseListing updatedListing)
         {
             var success = await _houseListingService.UpdateListingAsync(id, updatedListing);
@@ -68,8 +67,8 @@ namespace HouseBrokerApplication.Api.Controllers
             return Ok("Updated");
         }
 
-        [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Broker")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteListing(Guid id)
         {
             var success = await _houseListingService.DeleteListingAsync(id);

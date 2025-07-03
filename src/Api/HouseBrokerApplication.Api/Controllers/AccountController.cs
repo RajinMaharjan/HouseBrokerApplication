@@ -27,23 +27,24 @@ namespace HouseBrokerApplication.Api.Controllers
         public async Task<IActionResult> Register(RegisterDto model)
         {
             var result = await _accountService.RegisterAsync(model);
+
             if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors);
+            }
             return Ok();
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto model)
         {
-            var (success, role, token, expiry) = await _accountService.LoginAsync(model);
-            if (!success) return Unauthorized();
+            var user = await _accountService.LoginAsync(model);
+
+            var token = _accountService.GenerateToken(user);
 
             return Ok(new
             {
-                Message = "Login successful",
-                Role = role,
-                Token = token,
-                ExpiresAt = expiry
+                token
             });
         }
     }

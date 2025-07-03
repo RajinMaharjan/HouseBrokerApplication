@@ -56,7 +56,10 @@ namespace HouseBrokerApplication.Infrastructure.Services
                 .Include(l => l.Broker)
                 .FirstOrDefaultAsync(l => l.Id == id);
 
-            if (listing == null) return null;
+            if (listing == null)
+            {
+                return null;
+            }
 
             return new
             {
@@ -82,16 +85,24 @@ namespace HouseBrokerApplication.Infrastructure.Services
             var query = _context.HouseListings.Include(l => l.Images).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(location))
+            {
                 query = query.Where(l => l.Location.Contains(location));
+            }
 
             if (minPrice.HasValue)
+            {
                 query = query.Where(l => l.Price >= minPrice.Value);
+            }
 
             if (maxPrice.HasValue)
+            {
                 query = query.Where(l => l.Price <= maxPrice.Value);
+            }
 
             if (!string.IsNullOrWhiteSpace(propertyType))
+            {
                 query = query.Where(l => l.PropertyType == propertyType);
+            }
 
             query = (sortBy.ToLower(), sortDirection.ToLower()) switch
             {
@@ -114,7 +125,10 @@ namespace HouseBrokerApplication.Infrastructure.Services
         public async Task<bool> UpdateListingAsync(Guid id, HouseListing updatedListing)
         {
             var existingListing = await _context.HouseListings.FindAsync(id);
-            if (existingListing == null) return false;
+            if (existingListing == null)
+            {
+                return false;
+            }
 
             existingListing.Title = updatedListing.Title;
             existingListing.Location = updatedListing.Location;
@@ -134,7 +148,10 @@ namespace HouseBrokerApplication.Infrastructure.Services
                 .Include(l => l.Images)
                 .FirstOrDefaultAsync(l => l.Id == id);
 
-            if (listing == null) return false;
+            if (listing == null)
+            {
+                return false;
+            }
 
             _context.ListingImages.RemoveRange(listing.Images);
             _context.HouseListings.Remove(listing);

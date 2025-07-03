@@ -1,4 +1,5 @@
 ﻿using HouseBrokerApplication.Application.DTOs;
+using HouseBrokerApplication.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace HouseBrokerApplication.Application.Interface
     public interface IAccountService
     {
         Task<IdentityResult> RegisterAsync(RegisterDto model);
-        Task<(bool Success, string? Role, string? Token, DateTime? Expiry)> LoginAsync(LoginDto model);
+        Task<ApplicationUser> LoginAsync(LoginDto model);
+        string GenerateToken(ApplicationUser user);
     }
 
 }

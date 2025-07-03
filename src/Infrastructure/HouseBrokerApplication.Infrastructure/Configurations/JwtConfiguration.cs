@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,15 +18,29 @@ namespace HouseBrokerApplication.Infrastructure.Configurations
         public static void AddJWTConfigurationServices(this IServiceCollection services, IConfiguration configuration)
         {
             //Adding JWT token configuration.
+            var jwtConfig = configuration.GetSection("JwtConfig");
+            var secretKey = jwtConfig["Secret"];
+
             services.AddSwaggerGen(options =>
             {
-                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    In = ParameterLocation.Header,
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and your token."
                 });
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme { Reference = new OpenApiReference {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer" } },
+                        new string[] {}
+                    }
+                });
             });
 
             services.AddAuthentication(options =>
@@ -35,15 +50,15 @@ namespace HouseBrokerApplication.Infrastructure.Configurations
             })
                 .AddJwtBearer(options =>{
                     options.SaveToken = true;
-                    options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        RoleClaimType = "role",
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidAudience = configuration["JwtConfig:ValidAudience"],
-                        ValidIssuer = configuration["JwtConfig:ValidIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtConfig:Secret"]))
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtConfig["ValidIssuer"],
+                        ValidAudience = jwtConfig["ValidAudience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
                     };
                 });
         }

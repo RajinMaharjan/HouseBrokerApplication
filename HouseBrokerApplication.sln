@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBrokerApplication.Doma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBrokerApplication.Infrastructure", "src\Infrastructure\HouseBrokerApplication.Infrastructure\HouseBrokerApplication.Infrastructure.csproj", "{0EA208C4-80DD-4469-9439-1A527DC80484}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{16766972-C841-4306-9B95-29F8EF3707E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseBrokerApplication.Tests", "tests\HouseBrokerApplication.Tests\HouseBrokerApplication.Tests.csproj", "{3A6C0209-744C-4D48-8868-C9BDC626B9BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,10 @@ Global
 		{0EA208C4-80DD-4469-9439-1A527DC80484}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EA208C4-80DD-4469-9439-1A527DC80484}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EA208C4-80DD-4469-9439-1A527DC80484}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6C0209-744C-4D48-8868-C9BDC626B9BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6C0209-744C-4D48-8868-C9BDC626B9BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6C0209-744C-4D48-8868-C9BDC626B9BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6C0209-744C-4D48-8868-C9BDC626B9BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +64,7 @@ Global
 		{2E31B579-266C-471D-A4CA-B189D835DF2D} = {14301E2D-A43B-444E-8359-290767CA3D77}
 		{34AF594E-2C64-4026-84C8-F77E02C658F9} = {7BEDE822-D8B0-414D-B4D0-84124EA433D7}
 		{0EA208C4-80DD-4469-9439-1A527DC80484} = {D23D0D11-7770-4396-830C-72EFFA430CC3}
+		{3A6C0209-744C-4D48-8868-C9BDC626B9BA} = {16766972-C841-4306-9B95-29F8EF3707E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CB25D50F-4316-401B-824C-F7635441A482}
