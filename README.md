@@ -54,7 +54,12 @@ The application supports authentication, listing management, commission calculat
 
 ```bash
 git clone https://github.com/RajinMaharjan/HouseBrokerApplication.git
+```
+```bash
 cd HouseBrokerApplication
-dotnet run 
+```
+```bash
+dotnet run
+```
 
 
