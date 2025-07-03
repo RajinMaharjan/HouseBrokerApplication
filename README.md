@@ -92,3 +92,4 @@ dotnet ef database update  --project src/Infrastructure/HouseBrokerApplication.I
 ```
 dotnet run --project HouseBrokerApplication.API
 ```
+![image](https://github.com/user-attachments/assets/c9615932-92fa-45c7-adf2-8905a100890e)
